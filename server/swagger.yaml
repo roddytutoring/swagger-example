@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Swagger to test API
+  version: 0.1.0
+  description: This is a simple CRUD API application made with Express and documented with Swagger
+  license:
+    name: MIT
+    url: https://spdx.org/licenses/MIT.html
+servers:
+  - url: http://localhost:4000
+paths:
+  /users:
+    get:
+      tags:
+        - User
+      description: Use to request all users
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+    post:
+      tags:
+      - User
+      description: Use to create a new user
+      requestBody:
+        $ref: '#/components/requestBodies/UserRequest'
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /users/{id}:
+    get:
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: user's id
+          required: true
+          schema:
+            type: integer
+      description: Use to request a users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+    put:
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: user's id
+          required: true
+          schema:
+            type: integer
+      description: Use to update a users
+      requestBody:
+        $ref: '#/components/requestBodies/UserRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/UserResponse'
+    delete:
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          description: user's id
+          required: true
+          schema:
+              type: integer
+      description: Use to delete a users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDeleteResponse'
+components:
+  requestBodies:
+    UserRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserRequest'
+  schemas:
+    UserListResponse:
+      type: array
+      items:
+        properties:
+          id:
+            type: string
+            description: 유저의 고유 아이디
+          name:
+            type: string
+            description: 유저의 이름
+          age:
+            type: number
+            description: 유저의 나이
+          createdAt:
+            type: string
+            description: 유저 생성일
+          updatedAt:
+            type: string
+            description: 유저 수정일
+    UserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 유저의 이름
+        age:
+          type: number
+          description: 유저의 나이
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: 유저의 고유 아이디
+        name:
+          type: string
+          description: 유저의 이름
+        age:
+          type: number
+          description: 유저의 나이
+        createdAt:
+          type: string
+          description: 유저 생성일
+        updatedAt:
+          type: string
+          description: 유저 수정일
+    UserDeleteResponse:
+      type: boolean
+      description: 유저 삭제 성공 여부
+tags:
+  - name: User
+    description: 유저정보

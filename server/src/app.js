@@ -16,9 +16,10 @@ const swaggerDocument = YAML.parse(file)
 
 const indexRouter = require('./routes');
 const usersRouter = require('./routes/users');
+const cors = require('cors');
 
 const app = express();
-
+app.use(cors());
 // server swagger-ui
 app.use("/swagger",
   swaggerUi.serve,
